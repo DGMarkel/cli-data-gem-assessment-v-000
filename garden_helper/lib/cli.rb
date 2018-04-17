@@ -26,13 +26,15 @@ class GardenHelper::CLI
   end
 
     def menu#(location)
-      #veg_of_the_month_by_location(location)
+      GardenHelper::Vegetable.month
+=begin
       puts ""
       puts "Tomatoes"
       puts "Zucchini"
       puts "Eggplant"
       puts "Peppers"
       puts ""
+=end
       puts "For more growing information, enter any of the vegetables listed above.".green
       puts "You can also exit at any time by typing the magic word (It's exit).".green
       user_input
@@ -49,6 +51,8 @@ class GardenHelper::CLI
         input = gets.strip.downcase
         if input == "menu"
           menu#(location)
+        else
+          goodbye
         end
       end
     end
