@@ -1,4 +1,5 @@
 require 'date'
+require 'pry'
 
 class GardenHelper::CLI
 
@@ -18,10 +19,10 @@ class GardenHelper::CLI
 
     puts "Hiya, #{location}!  We've got your growing zone down."
     puts "For the month of #{Date::MONTHNAMES[Date.today.month]}, we're recommending that you plant the following vegetables in your area."
-    list_veg_by_location(location)
+    list_veg_by_location#(location)
   end
 
-    def list_veg_by_location(location)
+    def list_veg_by_location#(location)
       #veg_of_the_month_by_location(location)
       puts "Tomatoes"
       puts "Zucchini"
@@ -34,19 +35,19 @@ class GardenHelper::CLI
 
     def user_input
       input = gets.strip
-      until input == "exit"
+      if input != "exit"
         growing_info_for(input)
         #veg_of_the_month_by_location(location)
         puts "Thinking about planting other veggies? Type list or exit below."
         input = gets.strip.downcase
         if input == "list"
-          list_veg_by_location(location)
+          list_veg_by_location#(location)
         end
       end
     end
 
 
-    def veg_of_the_month_by_location(location)
+    def veg_of_the_month_by_location#(location)
     end
 
     def growing_info_for(vegetable)
