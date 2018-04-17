@@ -15,7 +15,7 @@ class GardenHelper::CLI
     puts ""
     puts "Hiya, #{@location}!  We've got your growing zone down."
     puts "For the month of #{Date::MONTHNAMES[Date.today.month]}, we're recommending that you plant the following vegetables in your area."
-    list_veg_by_location#(location)
+    menu#(location)
   end
 
   def real_location?
@@ -28,7 +28,7 @@ class GardenHelper::CLI
     end
   end
 
-    def list_veg_by_location#(location)
+    def menu#(location)
       #veg_of_the_month_by_location(location)
       puts ""
       puts "Tomatoes"
@@ -46,10 +46,10 @@ class GardenHelper::CLI
       if input != "exit"
         growing_info_for(input)
         #veg_of_the_month_by_location(location)
-        puts "Thinking about planting other veggies? Type list or exit below."
+        puts "Thinking about planting other veggies? Type menu or exit below."
         input = gets.strip.downcase
-        if input == "list"
-          list_veg_by_location#(location)
+        if input == "menu"
+          menu#(location)
         end
       end
     end
