@@ -43,7 +43,9 @@ class GardenHelper::CLI
 
     def user_input
       input = gets.strip
-      if input != "exit"
+      if input == "exit"
+        goodbye
+      else
         growing_info_for(input)
         #veg_of_the_month_by_location(location)
         puts "Thinking about planting other veggies? Type menu or exit below."
@@ -54,12 +56,18 @@ class GardenHelper::CLI
       end
     end
 
-
     def veg_of_the_month_by_location#(location)
     end
 
     def growing_info_for(vegetable)
+      puts ""
       puts "#{vegetable} are purple."
+      puts ""
+    end
+
+    def goodbye
+      puts ""
+      puts "Hey, good luck with that garden, #{@location}!  Hope to see your green thumbs around here real soon."
     end
 
 end
