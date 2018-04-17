@@ -1,20 +1,17 @@
-require 'date'
-require 'pry'
-
 class GardenHelper::CLI
   attr_accessor :location
 
   def call
     puts ""
-    puts "Garden Helper helps you determine which vegetables you should be planting in your garden this month."
-    puts "To best help you, we need to know what growing zone you live in."
+    puts "Garden Helper helps you determine which vegetables you should be planting in your garden this month.".green
+    puts "To best help you, we need to know what growing zone you live in.".green
     puts ""
-    puts "Let's get started!"
-    puts "Please enter your city or state below."
+    puts "Let's get started!".yellow
+    puts "Please enter your city or state below.".yellow
     real_location?
     puts ""
-    puts "Hiya, #{@location}!  We've got your growing zone down."
-    puts "For the month of #{Date::MONTHNAMES[Date.today.month]}, we're recommending that you plant the following vegetables in your area."
+    puts "Hiya, #{@location}!  We've got your growing zone down.".yellow
+    puts "For the month of #{Date::MONTHNAMES[Date.today.month]}, we're recommending that you plant the following vegetables in your area.".green
     menu#(location)
   end
 
