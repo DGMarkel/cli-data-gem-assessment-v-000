@@ -10,7 +10,5 @@
 # require "pry"
 # Pry.start
 
-puts "Hello world"
-
 require "irb"
 IRB.start(__FILE__)
