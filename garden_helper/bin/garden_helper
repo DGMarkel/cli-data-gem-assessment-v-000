@@ -1,4 +1,4 @@
 #!/usr/bin/env ruby
-require './lib/garden_helper.rb'
+require './lib/garden_helper_env.rb'
 
 GardenHelper::CLI.new.call
