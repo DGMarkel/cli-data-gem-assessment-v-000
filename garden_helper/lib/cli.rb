@@ -37,8 +37,11 @@ class GardenHelper::CLI
       until input == "exit"
         growing_info_for(input)
         #veg_of_the_month_by_location(location)
-        puts "Thinking about planting other veggies? Enter another one below or exit."
-        input = gets.strip
+        puts "Thinking about planting other veggies? Type list or exit below."
+        input = gets.strip.downcase
+        if input == "list"
+          list_veg_by_location(location)
+        end
       end
     end
 
