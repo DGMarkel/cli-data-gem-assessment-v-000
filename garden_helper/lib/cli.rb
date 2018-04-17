@@ -16,14 +16,12 @@ class GardenHelper::CLI
       puts "That's not a real place.  Please try again."
     end
 
-    #for now, location is just Brooklyn
-    location
+    puts "Hiya, #{location}!  We've got your growing zone down."
+    puts "For the month of #{Date::MONTHNAMES[Date.today.month]}, we're recommending that you plant the following vegetables in your area."
     list_veg_by_location(location)
   end
 
     def list_veg_by_location(location)
-      puts "Hiya, #{location}!  We've got your growing zone down."
-      puts "For the month of #{Date::MONTHNAMES[Date.today.month]}, we're recommending that you plant the following vegetables in your area."
       #veg_of_the_month_by_location(location)
       puts "Tomatoes"
       puts "Zucchini"
@@ -31,13 +29,19 @@ class GardenHelper::CLI
       puts "Peppers"
       puts "For more growing information, enter any of the vegetables listed above."
       puts "You can also exit at any time by typing the magic word (It's exit)."
+      user_input
+    end
+
+    def user_input
       input = gets.strip
       until input == "exit"
         growing_info_for(input)
         #veg_of_the_month_by_location(location)
+        puts "Thinking about planting other veggies? Enter another one below or exit."
         input = gets.strip
       end
     end
+
 
     def veg_of_the_month_by_location(location)
     end
