@@ -19,3 +19,14 @@ garden_scraper.rb - scrapes data from https//garden.org, creates new Month and V
 month.rb -- class GardenHelper::Month
 vegetable.rb -- class GardenHelper::vegetable
 gardener.rb -- saves Vegetable instances to array 'my_garden' and return them in a readable format.
+
+What is a vegetable?
+  - has a name
+  - has a basic description
+  - has growing information:
+    - how much it needs to be watered
+    - how much sun it needs
+    - what kind of soil it likes
+    - what plants grow well with it    
+  - has a url
+    - https://wikipedia.com/#{vegetable.name.downcase.capitalize}

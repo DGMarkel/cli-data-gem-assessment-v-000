@@ -10,7 +10,7 @@ class GardenHelper::CLI
     puts "Please enter your city or state below.".green
     real_location?
     puts ""
-    puts "Hiya, #{@location}!  We've got your growing zone down.".green
+    puts "Hiya, #{@location}!  We've got your growing zone down.".green #add growing zone from scraper here?
     puts "For the month of #{Date::MONTHNAMES[Date.today.month]}, we're recommending that you plant the following vegetables in your area.".green
     menu#(location)
   end
