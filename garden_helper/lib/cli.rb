@@ -2,6 +2,7 @@ require 'date'
 require 'pry'
 
 class GardenHelper::CLI
+attr_accessor :location
 
   def call
     puts "Garden Helper helps you determine which vegetables you should be planting in your garden this month."
@@ -9,17 +10,20 @@ class GardenHelper::CLI
     puts ""
     puts "Let's get started!"
     puts "Please enter your city or state below."
-
-    location = gets.strip
-    if location.to_i == 0
-      location.downcase.capitalize
-    else
-      puts "That's not a real place.  Please try again."
-    end
-
-    puts "Hiya, #{location}!  We've got your growing zone down."
+    real_location?
+    puts "Hiya, #{@location}!  We've got your growing zone down."
     puts "For the month of #{Date::MONTHNAMES[Date.today.month]}, we're recommending that you plant the following vegetables in your area."
     list_veg_by_location#(location)
+  end
+
+  def real_location?
+    @location = gets.strip
+    if @location.to_i < 1
+      @location.downcase.capitalize
+    else
+      puts "That's not a real place.  Please try again."
+      real_location?
+    end
   end
 
     def list_veg_by_location#(location)
