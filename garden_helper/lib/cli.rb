@@ -6,11 +6,11 @@ class GardenHelper::CLI
     puts "Garden Helper helps you determine which vegetables you should be planting in your garden this month.".green
     puts "To best help you, we need to know what growing zone you live in.".green
     puts ""
-    puts "Let's get started!".yellow
-    puts "Please enter your city or state below.".yellow
+    puts "Let's get started!".green
+    puts "Please enter your city or state below.".green
     real_location?
     puts ""
-    puts "Hiya, #{@location}!  We've got your growing zone down.".yellow
+    puts "Hiya, #{@location}!  We've got your growing zone down.".green
     puts "For the month of #{Date::MONTHNAMES[Date.today.month]}, we're recommending that you plant the following vegetables in your area.".green
     menu#(location)
   end
@@ -33,8 +33,8 @@ class GardenHelper::CLI
       puts "Eggplant"
       puts "Peppers"
       puts ""
-      puts "For more growing information, enter any of the vegetables listed above."
-      puts "You can also exit at any time by typing the magic word (It's exit)."
+      puts "For more growing information, enter any of the vegetables listed above.".green
+      puts "You can also exit at any time by typing the magic word (It's exit).".green
       user_input
     end
 
@@ -45,7 +45,7 @@ class GardenHelper::CLI
       else
         growing_info_for(input)
         #veg_of_the_month_by_location(location)
-        puts "Thinking about planting other veggies? Type menu or exit below."
+        puts "Thinking about planting other veggies? Type menu or exit below.".green
         input = gets.strip.downcase
         if input == "menu"
           menu#(location)
@@ -58,13 +58,13 @@ class GardenHelper::CLI
 
     def growing_info_for(vegetable)
       puts ""
-      puts "#{vegetable} are purple."
+      puts "#{vegetable} are purple.".green
       puts ""
     end
 
     def goodbye
       puts ""
-      puts "Hey, good luck with that garden, #{@location}!  Hope to see your green thumbs around here real soon."
+      puts "Hey, good luck with that garden, #{@location}!  Hope to see your green thumbs around here real soon.".green
     end
 
 end
