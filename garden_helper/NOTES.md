@@ -22,6 +22,10 @@ gardener.rb -- saves Vegetable instances to array 'my_garden' and return them in
 
 What is a vegetable?
   - has a name
+  - has a scientific name
+  - has many species
+  - date it should be started from seed
+  - date it should be planted
   - has a basic description
   - has growing information:
     - how much it needs to be watered
