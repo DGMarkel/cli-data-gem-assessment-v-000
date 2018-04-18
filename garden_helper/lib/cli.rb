@@ -12,7 +12,7 @@ class GardenHelper::CLI
     puts ""
     puts "Hiya, #{@location}!  We've got your growing zone down.".green #add growing zone from scraper here?
     puts "For the month of #{Date::MONTHNAMES[Date.today.month]}, we're recommending that you plant the following vegetables in your area.".green
-    menu#(location)
+    menu(location)
   end
 
   def real_location?
@@ -25,16 +25,9 @@ class GardenHelper::CLI
     end
   end
 
-    def menu#(location)
-      GardenHelper::Vegetable.month
-=begin
-      puts ""
-      puts "Tomatoes"
-      puts "Zucchini"
-      puts "Eggplant"
-      puts "Peppers"
-      puts ""
-=end
+    def menu(location)
+      vegetable_array = GardenHelper::Scraper.scrape_index_page(location)
+      vegetable_array.each {|vegetable| puts vegetable.name}
       puts "For more growing information, enter any of the vegetables listed above.".green
       puts "You can also exit at any time by typing the magic word (It's exit).".green
       user_input
