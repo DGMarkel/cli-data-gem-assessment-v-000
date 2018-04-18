@@ -4,16 +4,17 @@ require 'open-uri'
 class GardenHelper::Scraper
 
   def self.scrape_index_page(location)
-    crops_at_location = []
-    doc = Nokogiri::HTML(open("https://garden.org/apps/calendar/?q=" + "#{location}"))
-    vegetables = doc.css("a[target='_plant']")
-    vegetables.each do |plant|
-      new_vegetable = GardenHelper::Vegetable.new("#{plant.text}")
-      crops_at_location << new_vegetable
+    a = []
+    doc = Nokogiri::HTML(open("https://garden.org/apps/calendar/?q=Brooklyn"))
+    crops = doc.css("tr")
+    crop = crops.css("td[data-th='Crop']")
+    crop.each do |vegetable|
+      new_vegetable = GardenHelper::Vegetable.new("#{vegetable.text}")
+      a << new_vegetable
     end
-    crops_at_location
-  end
+    crops_at_location.uniq
 
+  end
   binding.pry
 
 end
