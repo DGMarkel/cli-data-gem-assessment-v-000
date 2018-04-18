@@ -1,33 +1,44 @@
 class GardenHelper::CLI
   attr_accessor :location
+  @@all = []
 
   def call
+    welcome
+
+  end
+
+  def welcome
     puts ""
     puts "Garden Helper helps you determine which vegetables you should be planting in your garden this month.".green
     puts "To best help you, we need to know what growing zone you live in.".green
     puts ""
-    puts "Let's get started!".green
-    puts "Please enter your city or state below.".green
+    puts "If you don't know your growing zone, you can look it up here:"
+    puts "https://garden.org/nga/zipzone/"
+    puts ""
+    puts "When you're ready, enter your growing zone below. (ex: 7b)".green
     real_location?
     puts ""
-    puts "Hiya, #{@location}!  We've got your growing zone down.".green #add growing zone from scraper here?
+    puts "Hiya, #{@location}!  We've got your growing zone down".green #add growing zone from scraper here?
     puts "For the month of #{Date::MONTHNAMES[Date.today.month]}, we're recommending that you plant the following vegetables in your area.".green
-    menu(location)
+    menu(@location)
   end
 
   def real_location?
     @location = gets.strip
-    if @location.to_i < 1
-      @location.downcase.capitalize
+    if @location.length == 2
+      @location
     else
       puts "That's not a real place.  Please try again."
       real_location?
     end
   end
 
-    #def menu(location)
-    def menu(climate_zone)
-      index_page_number = GardenHelper::Scraper.find_index_by_climate_zone(climate_zone)
+  def menu(climate_zone)
+    index_page_number = GardenHelper::Scraper.find_index_by_climate_zone(climate_zone)
+    GardenHelper::Scraper.scrape_crops_list_and_initialize_vegetables(index_page_number)
+    @@all << GardenHelper::Scraper.scrape_and_add_vegetable_atrributes
+    @@all
+
 
 =begin
       vegetable_array = GardenHelper::Scraper.scrape_index_page(location)

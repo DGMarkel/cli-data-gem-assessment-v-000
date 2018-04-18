@@ -2,25 +2,23 @@ require 'nokogiri'
 require 'open-uri'
 
 class GardenHelper::Scraper
-attr_accessor :page_to_scrape
 @@crop_array = []
 
   def self.find_index_by_climate_zone(climate_zone) #finds correct web address for user's climate zone
-    binding.pry
     page_scraper = nil
     doc = Nokogiri::HTML(open("https://www.gardenate.com"))
     climate_zone_list = doc.css('.steps')
 
     climate_zone_list.css('option').detect do |o|
-      page_scraper = o if o.text.include?("USA") && o.text.include?("7b")
+      page_scraper = o if o.text.include?("USA") && o.text.include?("#{climate_zone}")
     end
 
-    @growing_zone_index = page_scraper.values[0]
-    @growing_zone_index
+    index_page_number = page_scraper.values[0]
+    index_page_number
   end
 
-  def self.scrape_crops_list_and_initialize_vegetables #instantiates new vegetable objects with a name property
-    doc = Nokogiri::HTML(open("https://www.gardenate.com/?zone=#{@growing_zone_index}"))
+  def self.scrape_crops_list_and_initialize_vegetables(index_page_number) #instantiates new vegetable objects with a name property
+    doc = Nokogiri::HTML(open("https://www.gardenate.com/?zone=#{index_page_number}"))
     crops = doc.css('tr')
 
     crops.each do |crop|
@@ -39,6 +37,8 @@ attr_accessor :page_to_scrape
       crop.sowing = "#{doc.css('.sowing').text.gsub("\n", "").gsub("\t", "").gsub("(Show °C/cm)", "")}"
       crop.spacing = "#{doc.css('.spacing').text.strip}"
       crop.harvesting = "#{doc.css('.harvest').text.strip}"
+    end
+    @@crop_array
   end
 =begin
   def self.scrape_index_page(location)
