@@ -16,12 +16,8 @@ class GardenHelper::Scraper
       new_vegetable.direct_sow_seeds = "#{crop.css("td[data-th='Direct sow seeds']").text.gsub("\n", "")}"
       vegetable_instance_array << new_vegetable if new_vegetable.name != ""
     end
-    
+
     vegetable_instance_array
   end
 
 end
-
-# doc.css('.panel-body p').text.split(".").first + "."  =
-#"On average, your frost-free growing season starts Apr  9 and ends Nov  7, totalling 212 days"
-#doc.css("td[data-th='Crop']").text = run on string of crops
