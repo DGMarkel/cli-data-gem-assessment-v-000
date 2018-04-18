@@ -2,9 +2,10 @@ require 'nokogiri'
 require 'open-uri'
 
 class GardenHelper::Scraper
+  attr_accessor :vegetable_array
+  @@vegetable_array = []
 
   def self.scrape_index_page(location)
-    vegetable_instance_array = []
 
     doc = Nokogiri::HTML(open("https://garden.org/apps/calendar/?q=" + "#{location}"))
     crops = doc.css("tr")
@@ -14,10 +15,10 @@ class GardenHelper::Scraper
       new_vegetable.sow_seeds_indoors = "#{crop.css("td[data-th='Sow seeds indoors']").text.gsub("\n", "")}"
       new_vegetable.transplant_seedlings = "#{crop.css("td[data-th='Transplant seedlings into the garden']").text.gsub("\n", "")}"
       new_vegetable.direct_sow_seeds = "#{crop.css("td[data-th='Direct sow seeds']").text.gsub("\n", "")}"
-      vegetable_instance_array << new_vegetable if new_vegetable.name != ""
+      @@vegetable_array << new_vegetable if new_vegetable.name != ""
     end
 
-    vegetable_instance_array
+    @@vegetable_instance_array
   end
 
 end

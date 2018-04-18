@@ -27,7 +27,20 @@ class GardenHelper::CLI
 
     def menu(location)
       vegetable_array = GardenHelper::Scraper.scrape_index_page(location)
-      vegetable_array.each {|vegetable| puts vegetable.name}
+      binding.pry
+
+      if vegetable_array.length == 0
+        puts "You appear to be in an environment where frosts aren't an issue for you, so we can't properly advise you on planting dates.".yellow
+      else
+        vegetable_array.each.with_index do |vegetable, i|
+          if vegetable.sow_seeds_indoors.include?("#{Date::MONTHNAMES[Date.today.month]}"[0..2])||
+            vegetable.transplant_seedlings.include?("#{Date::MONTHNAMES[Date.today.month]}"[0..2])||
+            vegetable.direct_sow_seeds.include?("#{Date::MONTHNAMES[Date.today.month]}"[0..2])
+            puts "#{i + 1}. #{vegetable.name}"
+          end
+        end
+      end
+
       puts "For more growing information, enter any of the vegetables listed above.".green
       puts "You can also exit at any time by typing the magic word (It's exit).".green
       user_input
