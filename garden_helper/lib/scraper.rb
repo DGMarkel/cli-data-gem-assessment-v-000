@@ -4,8 +4,7 @@ require 'open-uri'
 class GardenHelper::Scraper
 attr_accessor :page_to_scrape
 
-
-  def self.find_index_by_climate_zone(climate_zone)
+  def self.find_index_by_climate_zone(climate_zone) #finds correct web address for user's climate zone
     binding.pry
     page_scraper = nil
     doc = Nokogiri::HTML(open("https://www.gardenate.com"))
@@ -19,8 +18,18 @@ attr_accessor :page_to_scrape
     @growing_zone_index
   end
 
-  def self.scrape_index_page
+  def self.scrape_index_page #instantiates new vegetable objects with a name property
+    crop_array = []
     doc = Nokogiri::HTML(open("https://www.gardenate.com/?zone=#{@growing_zone_index}"))
+    crops = doc.css('td[width="70%"]')
+
+    crops.each do |crop|
+      new_crop = GardenHelper::Vegetable.new("#{crop.css('a[href]').text}")
+      crop_array << new_crop
+    end
+
+  def self.scrape_vegetable_info_page
+
   end
 =begin
   def self.scrape_index_page(location)
