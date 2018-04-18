@@ -1,7 +1,6 @@
 require 'nokogiri'
 require 'open-uri'
 
-<<<<<<< HEAD
 class GardenHelper::Scraper
 
   def self.scrape_index_page(location)
@@ -22,17 +21,3 @@ class GardenHelper::Scraper
   end
 
 end
-=======
-class Scraper
-
-  def self.scrape_index_page(location)
-    doc = Nokogiri::HTML(open("https://garden.org/apps/calendar/" + "#{location}"))
-    binding.pry
-    #@@garden_vegetables_array <<
-
-  end
-
-end
-
-Scraper.scrape_index_page("Brooklyn")
->>>>>>> ea99f8032c37ce80da156380c3a4b5580327b7f4
