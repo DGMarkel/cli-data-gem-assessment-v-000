@@ -2,6 +2,10 @@ class GardenHelper::Vegetable
   attr_accessor :name, :scientific_name, :description, :popular_varieties, :growing_conditions, :url
   @@vegetables = []
 
+  def initialize(name)
+    @name = name
+  end
+
   def self.month
     #I should return a bunch of instances of vegetables for this month
     tomato = self.new
