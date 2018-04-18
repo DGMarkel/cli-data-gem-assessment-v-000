@@ -2,7 +2,27 @@ require 'nokogiri'
 require 'open-uri'
 
 class GardenHelper::Scraper
+attr_accessor :page_to_scrape
 
+
+  def self.find_index_by_climate_zone(climate_zone)
+    binding.pry
+    page_scraper = nil
+    doc = Nokogiri::HTML(open("https://www.gardenate.com"))
+    climate_zone_list = doc.css('.steps')
+
+    climate_zone_list.css('option').detect do |o|
+      page_scraper = o if o.text.include?("USA") && o.text.include?("7b")
+    end
+
+    @growing_zone_index = page_scraper.values[0]
+    @growing_zone_index
+  end
+
+  def self.scrape_index_page
+    doc = Nokogiri::HTML(open("https://www.gardenate.com/?zone=#{@growing_zone_index}"))
+  end
+=begin
   def self.scrape_index_page(location)
     vegetable_instance_array = []
     binding.pry
@@ -25,5 +45,6 @@ class GardenHelper::Scraper
 
     vegetable_instance_array
   end
+=end
 
 end

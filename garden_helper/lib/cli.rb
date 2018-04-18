@@ -25,7 +25,11 @@ class GardenHelper::CLI
     end
   end
 
-    def menu(location)
+    #def menu(location)
+    def menu(climate_zone)
+      index_page_number = GardenHelper::Scraper.find_index_by_climate_zone(climate_zone)
+
+=begin
       vegetable_array = GardenHelper::Scraper.scrape_index_page(location)
       if vegetable_array.length == 0
         puts "You appear to be in an environment where frosts aren't an issue for you, so we can't properly advise you on planting dates.".yellow
@@ -42,6 +46,7 @@ class GardenHelper::CLI
       puts "For more growing information, enter any of the vegetables listed above.".green
       puts "You can also exit at any time by typing the magic word (It's exit).".green
       user_input
+=end
     end
 
     def user_input
