@@ -27,8 +27,6 @@ class GardenHelper::CLI
 
     def menu(location)
       vegetable_array = GardenHelper::Scraper.scrape_index_page(location)
-      binding.pry
-
       if vegetable_array.length == 0
         puts "You appear to be in an environment where frosts aren't an issue for you, so we can't properly advise you on planting dates.".yellow
       else
