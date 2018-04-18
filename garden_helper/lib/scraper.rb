@@ -2,10 +2,9 @@ require 'nokogiri'
 require 'open-uri'
 
 class GardenHelper::Scraper
-  attr_accessor :vegetable_array
-  @@vegetables = []
 
   def self.scrape_index_page(location)
+    vegetable_instance_array = []
 
     doc = Nokogiri::HTML(open("https://garden.org/apps/calendar/?q=" + "#{location}"))
     crops = doc.css("tr")
@@ -15,14 +14,14 @@ class GardenHelper::Scraper
       new_vegetable.sow_seeds_indoors = "#{crop.css("td[data-th='Sow seeds indoors']").text.gsub("\n", "")}"
       new_vegetable.transplant_seedlings = "#{crop.css("td[data-th='Transplant seedlings into the garden']").text.gsub("\n", "")}"
       new_vegetable.direct_sow_seeds = "#{crop.css("td[data-th='Direct sow seeds']").text.gsub("\n", "")}"
-      @@vegetables << new_vegetable if new_vegetable.name != ""
+      vegetable_instance_array << new_vegetable if new_vegetable.name != ""
     end
-
-    @@vegetable_instance_array
-  end
-
-  def self.vegetables
-    @@vegetables
+    
+    vegetable_instance_array
   end
 
 end
+
+# doc.css('.panel-body p').text.split(".").first + "."  =
+#"On average, your frost-free growing season starts Apr  9 and ends Nov  7, totalling 212 days"
+#doc.css("td[data-th='Crop']").text = run on string of crops
