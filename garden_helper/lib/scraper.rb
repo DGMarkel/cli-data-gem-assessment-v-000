@@ -5,16 +5,17 @@ class GardenHelper::Scraper
 
   def self.scrape_index_page(location)
     a = []
+
     doc = Nokogiri::HTML(open("https://garden.org/apps/calendar/?q=Brooklyn"))
     crops = doc.css("tr")
-    crop = crops.css("td[data-th='Crop']")
-    crop.each do |vegetable|
-      new_vegetable = GardenHelper::Vegetable.new("#{vegetable.text}")
-      a << new_vegetable
-    end
-    crops_at_location.uniq
 
+    crops.each do |crop|
+      new_vegetable = GardenHelper::Vegetable.new("#{crop.css("td[data-th='Crop']").text.gsub("\n", "")}")
+      a << new_vegetable if new_vegetable.name != ""
+    end
+    a
   end
+
   binding.pry
 
 end
