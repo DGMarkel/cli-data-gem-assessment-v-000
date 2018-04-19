@@ -6,5 +6,4 @@ class GardenHelper::Vegetable
     @name = name
   end
 
-
 end

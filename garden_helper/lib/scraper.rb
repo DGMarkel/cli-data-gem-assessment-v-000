@@ -17,7 +17,7 @@ class GardenHelper::Scraper
     index_page_number
   end
 
-  def self.scrape_crops_list_and_initialize_vegetables(index_page_number) #instantiates new vegetable objects with a name property
+  def self.scrape_crops_list_and_initialize_crops(index_page_number) #instantiates new vegetable objects with a name property
     doc = Nokogiri::HTML(open("https://www.gardenate.com/?zone=#{index_page_number}"))
     crops = doc.css('tr')
 
@@ -29,44 +29,21 @@ class GardenHelper::Scraper
     end
   end
 
-  def self.scrape_and_add_vegetable_atrributes #creates new properties for vegetables by following their url
-    @@crop_array.each do |crop|
-      doc = Nokogiri::HTML(open(crop.url))
-      crop.description = "#{doc.css('#details').text.gsub("\n", "").gsub("\t", "")}"
-      crop.compatible_with = "#{doc.css('.companion').text + "."}"
-      crop.sowing = "#{doc.css('.sowing').text.gsub("\n", "").gsub("\t", "").gsub("(Show °C/cm)", "")}"
-      crop.spacing = "#{doc.css('.spacing').text.strip}"
-      crop.harvesting = "#{doc.css('.harvest').text.strip}"
-    end
-    @@crop_array
+  def self.find_crop_and_add_atrributes(user_input) #creates new properties for vegetables by following their url
+    doc = Nokogiri::HTML(open(crop.url))
+    crop = @@crop_array.detect {|crop| crop.name == user_input}
+
+    crop.description = "#{doc.css('#details').text.gsub("\n", "").gsub("\t", "")}"
+    crop.compatible_with = "#{doc.css('.companion').text + "."}"
+    crop.sowing = "#{doc.css('.sowing').text.gsub("\n", "").gsub("\t", "").gsub("(Show °C/cm)", "")}"
+    crop.spacing = "#{doc.css('.spacing').text.strip}"
+    crop.harvesting = "#{doc.css('.harvest').text.strip}"
+
+    crop
   end
 
   def self.crop_array
     @@crop_array
   end
-=begin
-  def self.scrape_index_page(location)
-    vegetable_instance_array = []
-    binding.pry
-
-    doc = Nokogiri::HTML(open("https://garden.org/apps/calendar/?q=#{location}"))
-    crops = doc.css("tr")
-
-    crops.each do |crop|
-      new_vegetable = GardenHelper::Vegetable.new("#{crop.css("td[data-th='Crop']").text.gsub("\n", "")}")
-      new_vegetable.sow_seeds_indoors = "#{crop.css("td[data-th='Sow seeds indoors']").text.gsub("\n", "")}"
-      new_vegetable.transplant_seedlings = "#{crop.css("td[data-th='Transplant seedlings into the garden']").text.gsub("\n", "")}"
-      new_vegetable.direct_sow_seeds = "#{crop.css("td[data-th='Direct sow seeds']").text.gsub("\n", "")}"
-
-      d = crop.css("td[data-th='Crop']")
-      veg_doc = Nokogiri::HTML(open("https://garden.org" + "#{d.css('a[href]').first['href']}"))
-      new_vegetable.description = veg_doc.css('.panel-body p').first.text.gsub("About #{new_vegetable.name}", "")
-
-      vegetable_instance_array << new_vegetable if new_vegetable.name != ""
-    end
-
-    vegetable_instance_array
-  end
-=end
 
 end
