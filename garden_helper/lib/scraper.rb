@@ -30,9 +30,8 @@ class GardenHelper::Scraper
   end
 
   def self.find_crop_and_add_atrributes(user_input) #creates new properties for vegetables by following their url
-    doc = Nokogiri::HTML(open(crop.url))
     crop = @@crop_array.detect {|crop| crop.name == user_input}
-
+    doc = Nokogiri::HTML(open(crop.url))
     crop.description = "#{doc.css('#details').text.gsub("\n", "").gsub("\t", "")}"
     crop.compatible_with = "#{doc.css('.companion').text + "."}"
     crop.sowing = "#{doc.css('.sowing').text.gsub("\n", "").gsub("\t", "").gsub("(Show °C/cm)", "")}"
