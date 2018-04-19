@@ -4,7 +4,6 @@ class GardenHelper::CLI
 
   def call
     welcome
-
   end
 
   def welcome
@@ -15,10 +14,10 @@ class GardenHelper::CLI
     puts "If you don't know your growing zone, you can look it up here:"
     puts "https://garden.org/nga/zipzone/"
     puts ""
+    puts "Garden Helper scrapes through dozens of pages for the information you're looking for, so initial load time could be several minutes."
     puts "When you're ready, enter your growing zone below. (ex: 7b)".green
     real_location?
     puts ""
-    puts "Hiya, #{@location}!  We've got your growing zone down".green #add growing zone from scraper here?
     puts "For the month of #{Date::MONTHNAMES[Date.today.month]}, we're recommending that you plant the following vegetables in your area.".green
     menu(@location)
   end
@@ -36,8 +35,10 @@ class GardenHelper::CLI
   def menu(climate_zone)
     index_page_number = GardenHelper::Scraper.find_index_by_climate_zone(climate_zone)
     GardenHelper::Scraper.scrape_crops_list_and_initialize_vegetables(index_page_number)
-    @@all << GardenHelper::Scraper.scrape_and_add_vegetable_atrributes
-    @@all
+    GardenHelper::Scraper.crop_array.each {|crop| puts crop.name}
+    puts "For more growing information, enter any of the vegetables listed above.".green
+    puts "You can also exit at any time by typing the magic word (It's exit).".green
+    user_input
 
 
 =begin
@@ -75,9 +76,6 @@ class GardenHelper::CLI
           goodbye
         end
       end
-    end
-
-    def veg_of_the_month_by_location#(location)
     end
 
     def growing_info_for(vegetable)

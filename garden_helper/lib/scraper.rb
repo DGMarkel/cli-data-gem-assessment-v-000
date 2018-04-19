@@ -40,6 +40,10 @@ class GardenHelper::Scraper
     end
     @@crop_array
   end
+
+  def self.crop_array
+    @@crop_array
+  end
 =begin
   def self.scrape_index_page(location)
     vegetable_instance_array = []
