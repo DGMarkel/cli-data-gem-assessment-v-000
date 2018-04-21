@@ -35,7 +35,7 @@ class GardenHelper::CLI
   def menu(climate_zone)
     user_generated_index = GardenHelper::Scraper.find_index_by_climate_zone(climate_zone)
     GardenHelper::Vegetable.new_from_index_page(user_generated_index)
-    GardenHelper::Vegetable.crop_array.each {|crop| puts crop.name}
+    GardenHelper::Vegetable.vegetable_array.each {|vegetable| puts vegetable.name}
     puts "For more growing information, enter any of the vegetables listed above.".green
     puts "You can also exit at any time by typing the magic word (It's exit).".green
     user_input
@@ -46,20 +46,20 @@ class GardenHelper::CLI
     if user_input == "exit"
       goodbye
     else
-      crop = GardenHelper::Vegetable.find_crop_and_add_atrributes(user_input)
-      puts crop.description
+      vegetable = GardenHelper::Vegetable.find_vegetable_and_add_atrributes(user_input)
+      puts vegetable.description
       puts ""
-      puts crop.compatible_with
+      puts vegetable.compatible_with
       puts ""
       puts "Would you like to see more planting info? (y/n)"
       input = gets.strip.downcase
       if input == "y"
         puts ""
-        puts "* #{crop.sowing.strip}"
+        puts "* #{vegetable.sowing.strip}"
         puts ""
-        puts "* #{crop.spacing}"
+        puts "* #{vegetable.spacing}"
         puts ""
-        puts "* #{crop.harvesting}"
+        puts "* #{vegetable.harvesting}"
         puts "Thinking about planting other veggies? Type menu or exit below.".green
         input = gets.strip.downcase
         if input == "menu"
