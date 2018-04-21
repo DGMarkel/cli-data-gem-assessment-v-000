@@ -47,7 +47,7 @@ class GardenHelper::CLI
       goodbye
     else
       vegetable = GardenHelper::Vegetable.find_vegetable_and_add_atrributes(user_input)
-      puts vegetable.description
+      puts "#{formatted_description(vegetable)}".gsub(".", ". ").gsub(".  ", ". ").gsub("  ", " ")
       puts "Would you like to see more planting info? (y/n)"
       input = gets.strip.downcase
       if input == "y"
@@ -63,7 +63,7 @@ class GardenHelper::CLI
       print sentence + "." if sentence.length > 15
       if sentence.length < 15 && sentence != ""
         puts ""
-        puts "**#{sentence}**"
+        puts "**#{sentence}**".green
       end
     end
   end
