@@ -9,13 +9,13 @@ class GardenHelper::CLI
 
   def welcome
     puts ""
-    puts "Garden Helper helps you determine which vegetables you should be planting in your garden this month.".yellow
-    puts "To best help you, we need to know what growing zone you live in.".yellow
+    puts "Garden Helper helps you determine which vegetables you should be planting in your garden this month.".green
+    puts "To best help you, we need to know what growing zone you live in.".green
     puts ""
     puts "If you don't know your growing zone, you can look it up here:".green
     puts "https://garden.org/nga/zipzone/".green
     puts ""
-    puts "When you're ready, enter your growing zone below. (ex: 7b)".yellow
+    puts "When you're ready, enter your growing zone below. (ex: 7b)".green
     real_location?
     puts ""
     puts "For the month of #{Date::MONTHNAMES[Date.today.month]}, we're recommending that you plant the following vegetables in your area.".green
@@ -33,9 +33,9 @@ class GardenHelper::CLI
   end
 
   def menu(climate_zone)
-    index_page_number = GardenHelper::Scraper.find_index_by_climate_zone(climate_zone)
-    GardenHelper::Scraper.scrape_crops_list_and_initialize_crops(index_page_number)
-    GardenHelper::Scraper.crop_array.each {|crop| puts crop.name}
+    user_generated_index = GardenHelper::Scraper.find_index_by_climate_zone(climate_zone)
+    GardenHelper::Vegetable.new_from_index_page(user_generated_index)
+    GardenHelper::Vegetable.crop_array.each {|crop| puts crop.name}
     puts "For more growing information, enter any of the vegetables listed above.".green
     puts "You can also exit at any time by typing the magic word (It's exit).".green
     user_input
@@ -46,7 +46,7 @@ class GardenHelper::CLI
     if user_input == "exit"
       goodbye
     else
-      crop = GardenHelper::Scraper.find_crop_and_add_atrributes(user_input)
+      crop = GardenHelper::Vegetable.find_crop_and_add_atrributes(user_input)
       puts crop.description
       puts ""
       puts crop.compatible_with
