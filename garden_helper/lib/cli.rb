@@ -47,7 +47,7 @@ class GardenHelper::CLI
       goodbye
     else
       vegetable = GardenHelper::Vegetable.find_vegetable_and_add_atrributes(user_input)
-      puts "#{formatted_description(vegetable)}".gsub(".", ". ").gsub(".  ", ". ").gsub("  ", " ")
+      puts formatted_description(vegetable)
       puts "Would you like to see more planting info? (y/n)"
       input = gets.strip.downcase
       if input == "y"
