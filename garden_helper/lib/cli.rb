@@ -4,7 +4,6 @@ class GardenHelper::CLI
   def call
     welcome
     menu(@location)
-    user_input
   end
 
   def welcome
@@ -15,6 +14,7 @@ class GardenHelper::CLI
     puts "If you don't know your growing zone, you can look it up here:".green
     puts "https://garden.org/nga/zipzone/".green
     puts ""
+    puts "Garden Helper scrapes through dozens of pages for the information you're looking for, so initial load time could be several minutes."
     puts "When you're ready, enter your growing zone below. (ex: 7b)".green
     real_growing_zone?
     puts ""
@@ -35,9 +35,10 @@ class GardenHelper::CLI
   def menu(climate_zone)
     user_generated_index = GardenHelper::Scraper.find_index_by_climate_zone(climate_zone)
     GardenHelper::Vegetable.new_from_index_page(user_generated_index)
-    GardenHelper::Vegetable.vegetable_array.each {|vegetable| puts vegetable.name}
+    GardenHelper::Vegetable.vegetable_array.each {|vegetable| puts "*".yellow + " #{vegetable.name}"}
     puts "For more growing information, enter any of the vegetables listed above.".green
     puts "You can also exit at any time by typing the magic word (It's exit).".green
+    user_input
   end
 
   def user_input
@@ -46,8 +47,9 @@ class GardenHelper::CLI
       goodbye
     else
       vegetable = GardenHelper::Vegetable.find_vegetable_and_add_atrributes(user_input)
-      puts vegetable.description
-      puts "Would you like to see more planting info? (y/n)"
+      formatted_description(vegetable)
+      puts ""
+      puts "Would you like to see more planting info? (y/n)".green
       input = gets.strip.downcase
       if input == "y"
         more_info(vegetable)
@@ -57,17 +59,49 @@ class GardenHelper::CLI
     end
   end
 
+  def formatted_description(vegetable)
+    puts ""
+    vegetable.description.scan(/\b.*\b/).each do |sentence|
+      print sentence + ". " if sentence.length > 15
+      if sentence.length < 15 && sentence != ""
+        puts ""
+        puts "**#{sentence}**".green
+      end
+    end
+  end
+
+  def formatted_sowing_description(vegetable)
+    formatting = vegetable.sowing.strip.split(".")
+    puts "    * #{formatting[0]}".green
+    puts "      - #{formatting[1]}"
+    puts "       - #{formatting[2]}" if formatting[2]
+    puts ""
+  end
+
+  def formatted_spacing_description(vegetable)
+    formatting = vegetable.spacing.split(":")
+    puts "    * #{formatting[0].green}: #{formatting[1]}"
+    puts ""
+  end
+
+  def formatted_compatibility_description(vegetable)
+    formatting = vegetable.compatible_with.split(":")
+    puts "    * #{formatting[0].green}: #{formatting[1]}"
+    puts ""
+  end
+
   def more_info(vegetable)
     puts ""
-    puts "* #{vegetable.sowing.strip}"
-    puts "* #{vegetable.spacing}"
-    puts "* #{vegetable.compatible_with}"
-    puts "* #{vegetable.harvesting}"
+    formatted_sowing_description(vegetable)
+    formatted_spacing_description(vegetable)
+    formatted_compatibility_description(vegetable)
+    puts "    * #{vegetable.harvesting}".green
     more_veggies?
   end
 
   def more_veggies?
-    puts "Thinking about planting other veggies? Type menu or exit below.".green
+    puts ""
+    puts "Thinking about planting other veggies?" + " Type menu or exit below.".green
     input = gets.strip.downcase
     if input == "menu"
       menu(@location)

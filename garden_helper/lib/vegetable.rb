@@ -4,13 +4,13 @@ class GardenHelper::Vegetable
 
   #Instantiaties vegetable objects from scraped climate zone index page
   #Objects have a name and a url to scrape for more data
-  #Objects are pushed into vegetable array
+  #Objects are pushed into vegetable_array
   def self.new_from_index_page(user_generated_index)
     vegetables = GardenHelper::Scraper.scrape_vegetables(user_generated_index)
     vegetables.each do |vegetable|
       new_vegetable = GardenHelper::Vegetable.new("#{vegetable.css('td[width="70%"] a[href]').text}")
       new_vegetable.url = "https://www.gardenate.com#{vegetable.css('td[width="70%"] a').first['href']}"
-      @@vegetable_array << new_vegetable if !self.find_vegetable(vegetable)
+      @@vegetable_array << new_vegetable if !find_vegetable(vegetable)
     end
   end
 
@@ -28,7 +28,7 @@ class GardenHelper::Vegetable
   def self.find_vegetable_and_add_atrributes(user_input)
     vegetable = find_vegetable(user_input)
     doc = Nokogiri::HTML(open(vegetable.url))
-    vegetable.description = "#{doc.css('#details').text.gsub("\n", "").gsub("\t", "")}"
+    vegetable.description = "#{doc.css('#details').text}"
     vegetable.compatible_with = "#{doc.css('.companion').text + "."}"
     vegetable.sowing = "#{doc.css('.sowing').text.gsub("\n", "").gsub("\t", "").gsub("(Show °C/cm)", "")}"
     vegetable.spacing = "#{doc.css('.spacing').text.strip}"
