@@ -100,7 +100,7 @@ class GardenHelper::CLI
 
   def more_veggies?
     puts ""
-    puts "Thinking about planting other veggies? Type menu or exit below.".green
+    puts "Thinking about planting other veggies?" + " Type menu or exit below.".green
     input = gets.strip.downcase
     if input == "menu"
       menu(@location)
