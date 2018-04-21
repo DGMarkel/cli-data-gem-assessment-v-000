@@ -3,18 +3,18 @@ class GardenHelper::CLI
 
   def call
     welcome
-    menu(@location)
+    menu
   end
 
   def welcome
     puts ""
     puts "Garden Helper helps you determine which vegetables you should be planting in your garden this month.".green
-    puts "To best help you, we need to know what growing zone you live in.".green
+    puts "To best help you, we need to know what climate zone you live in.".green
     puts ""
-    puts "If you don't know your growing zone, you can look it up here:".green
+    puts "If you don't know your climate zone, you can look it up here:".green
     puts "https://garden.org/nga/zipzone/".green
     puts ""
-    puts "When you're ready, enter your growing zone below. (ex: 7b)".green
+    puts "When you're ready, enter your climate zone below. (ex: 7b)".green
     real_growing_zone?
     puts ""
     puts "For the month of #{Date::MONTHNAMES[Date.today.month]}, we're recommending that you plant the following vegetables in your area.".green
@@ -26,21 +26,28 @@ class GardenHelper::CLI
     if @location.length == 2
       @location
     else
-      puts "That's not a real place.  Please try again."
+      puts "That's not valid climate zone.  Please try again."
       real_growing_zone?
     end
   end
 
-  def menu(climate_zone)
-    user_generated_index = GardenHelper::Scraper.find_index_by_climate_zone(climate_zone)
+  def generate_menu
+    user_generated_index = GardenHelper::Scraper.find_index_by_climate_zone(@location)
     GardenHelper::Vegetable.new_from_index_page(user_generated_index)
+  end
+
+
+  def menu
+    if GardenHelper::Vegetable.vegetable_array.empty?
+      generate_menu
+    end
     GardenHelper::Vegetable.vegetable_array.each {|vegetable| puts "*".yellow + " #{vegetable.name}"}
     puts "For more growing information, enter any of the vegetables listed above.".green
     puts "You can also exit at any time by typing the magic word (It's exit).".green
-    user_input
+    first_user_interface
   end
 
-  def user_input
+  def first_user_interface
     user_input = gets.strip.downcase.capitalize
     if user_input == "exit"
       goodbye
@@ -73,7 +80,7 @@ class GardenHelper::CLI
   def formatted_sowing_description(vegetable)
     formatting = vegetable.sowing.strip.split(".")
     puts "    * #{formatting[0]}".green
-    puts "       -".yellow + "#{formatting[1].gsub}"
+    puts "       -".yellow + "#{formatting[1]}"
     puts "       -".yellow + " #{formatting[2]}" if formatting[2]
     puts ""
   end
@@ -87,14 +94,19 @@ class GardenHelper::CLI
   def formatted_compatibility_description(vegetable)
     formatting = vegetable.compatible_with.split(":")
     compatible_plants_list = formatting[1].split(/[., .]/)
-    puts "    * #{formatting[0]}:".green
 
-    compatible_plants_list.each do |plant|
-      if plant != "" && plant != "Dry-environment" && plant != "herbs"
-        puts "       -".yellow + " #{plant.capitalize.gsub("(", "").gsub(")", "")}"
+    puts "    * #{formatting[0]}:".green
+    if formatting[1].include?("Not applicable")
+      puts "      -".yellow + "#{formatting[1].gsub("..", ".")}"
+      puts ""
+    else
+      compatible_plants_list.each do |plant|
+        if plant != "" && plant != "Dry-environment" && plant != "herbs" && !plant.include?("aromatic")
+          puts "       -".yellow + " #{plant.capitalize.gsub("(", "").gsub(")", "")}"
+        end
       end
+      puts ""
     end
-    puts ""
   end
 
   def more_info(vegetable)
@@ -111,9 +123,12 @@ class GardenHelper::CLI
     puts "Thinking about planting other veggies? Type menu or exit below.".green
     input = gets.strip.downcase
     if input == "menu"
-      menu(@location)
-    else
+      menu
+    elsif input == "exit"
       goodbye
+    else
+      puts "Sorry, I didn't quite get that."
+      more_veggies?
     end
   end
 
