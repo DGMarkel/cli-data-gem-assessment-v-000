@@ -12,8 +12,6 @@ class GardenHelper::Scraper
     climate_zone_menu.css('option').detect do |menu_option|
       user_generated_index = menu_option if menu_option.text.include?("USA") && menu_option.text.include?("#{climate_zone}")
     end
-    user_generated_index.values[0]
-  end
 
   #Scrapes all vegetables from user's climate zone page
   def self.scrape_vegetables(user_generated_index)

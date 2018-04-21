@@ -15,6 +15,7 @@ class GardenHelper::CLI
     puts "If you don't know your growing zone, you can look it up here:".green
     puts "https://garden.org/nga/zipzone/".green
     puts ""
+    puts "Garden Helper scrapes through dozens of pages for the information you're looking for, so initial load time could be several minutes."
     puts "When you're ready, enter your growing zone below. (ex: 7b)".green
     real_growing_zone?
     puts ""
