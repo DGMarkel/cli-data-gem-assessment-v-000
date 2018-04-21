@@ -28,7 +28,7 @@ class GardenHelper::Vegetable
   def self.find_vegetable_and_add_atrributes(user_input)
     vegetable = find_vegetable(user_input)
     doc = Nokogiri::HTML(open(vegetable.url))
-    vegetable.description = "#{doc.css('#details').text
+    vegetable.description = "#{doc.css('#details').text}"
     vegetable.compatible_with = "#{doc.css('.companion').text + "."}"
     vegetable.sowing = "#{doc.css('.sowing').text.gsub("\n", "").gsub("\t", "").gsub("(Show °C/cm)", "")}"
     vegetable.spacing = "#{doc.css('.spacing').text.strip}"
