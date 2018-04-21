@@ -69,11 +69,17 @@ class GardenHelper::CLI
   end
 
   def formatted_sowing_description(vegetable)
-    unformatted = vegetable.sowing.strip.split(". ")
-    puts "* #{unformatted[0]}".green
-    puts "#{unformatted[1]}"
-    puts "#{unformatted[2]}"
+    formatting = vegetable.sowing.strip.split(". ")
+    puts "* #{formatting[0]}".green
+    puts "#{formatting[1]}"
+    puts "#{formatting[2]}"
   end
+
+  def formatted_spacing_description(vegetable)
+    formatting = vegetable.spacing.split(":")
+    puts "#{formatting[0].green}: {formatting[1]}"
+  end
+    
 
 
   def more_info(vegetable)
