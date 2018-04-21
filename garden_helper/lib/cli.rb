@@ -79,13 +79,13 @@ class GardenHelper::CLI
     formatting = vegetable.spacing.split(":")
     puts "#{formatting[0].green}: {formatting[1]}"
   end
-    
+
 
 
   def more_info(vegetable)
     puts ""
     formatted_sowing_description(vegetable)
-    puts "* #{vegetable.spacing}".green
+    formatted_spacing_description(vegetable)
     puts "* #{vegetable.compatible_with}".green
     puts "* #{vegetable.harvesting}".green
     more_veggies?
