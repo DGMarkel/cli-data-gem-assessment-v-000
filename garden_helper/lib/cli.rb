@@ -66,8 +66,7 @@ class GardenHelper::CLI
         puts "**#{sentence}**"
       end
     end
-
-end
+  end
 
   def more_info(vegetable)
     puts ""
