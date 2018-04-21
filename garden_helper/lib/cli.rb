@@ -4,7 +4,6 @@ class GardenHelper::CLI
   def call
     welcome
     menu(@location)
-    user_input
   end
 
   def welcome
@@ -39,6 +38,7 @@ class GardenHelper::CLI
     GardenHelper::Vegetable.vegetable_array.each {|vegetable| puts vegetable.name}
     puts "For more growing information, enter any of the vegetables listed above.".green
     puts "You can also exit at any time by typing the magic word (It's exit).".green
+    user_input
   end
 
   def user_input
