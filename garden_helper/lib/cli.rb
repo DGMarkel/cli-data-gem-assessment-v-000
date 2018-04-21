@@ -69,7 +69,7 @@ class GardenHelper::CLI
   end
 
   def formatted_sowing_description(vegetable)
-    unformatted = vegetable.sowing.strip.split(".")
+    unformatted = vegetable.sowing.strip.split(". ")
     puts "* #{unformatted[0]}".green
     puts "#{unformatted[1]}"
     puts "#{unformatted[2]}"
