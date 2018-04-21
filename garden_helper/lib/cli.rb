@@ -70,9 +70,9 @@ class GardenHelper::CLI
 
   def formatted_sowing_description(vegetable)
     formatting = vegetable.sowing.strip.split(".")
-    puts "* #{formatting[0]}".green
-    puts "  #{formatting[1]}"
-    puts "   #{formatting[2]}" if formatting[2]
+    puts "    * #{formatting[0]}".green
+    puts "      #{formatting[1]}"
+    puts "       #{formatting[2]}" if formatting[2]
   end
 
   def formatted_spacing_description(vegetable)
