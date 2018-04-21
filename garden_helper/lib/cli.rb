@@ -35,7 +35,7 @@ class GardenHelper::CLI
   def menu(climate_zone)
     user_generated_index = GardenHelper::Scraper.find_index_by_climate_zone(climate_zone)
     GardenHelper::Vegetable.new_from_index_page(user_generated_index)
-    GardenHelper::Vegetable.vegetable_array.each {|vegetable| puts "* #{vegetable.name}"}
+    GardenHelper::Vegetable.vegetable_array.each {|vegetable| puts "*".yellow + " #{vegetable.name}"}
     puts "For more growing information, enter any of the vegetables listed above.".green
     puts "You can also exit at any time by typing the magic word (It's exit).".green
     user_input
