@@ -4,7 +4,7 @@ class GardenHelper::Vegetable
 
   #Instantiaties vegetable objects from scraped climate zone index page
   #Objects have a name and a url to scrape for more data
-  #Objects are pushed into vegetable array
+  #Objects are pushed into vegetable_array
   def self.new_from_index_page(user_generated_index)
     vegetables = GardenHelper::Scraper.scrape_vegetables(user_generated_index)
     vegetables.each do |vegetable|
