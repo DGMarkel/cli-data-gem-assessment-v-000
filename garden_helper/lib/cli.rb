@@ -47,23 +47,23 @@ class GardenHelper::CLI
     else
       vegetable = GardenHelper::Vegetable.find_vegetable_and_add_atrributes(user_input)
       puts vegetable.description
-      puts ""
-      puts vegetable.compatible_with
-      puts ""
       puts "Would you like to see more planting info? (y/n)"
       input = gets.strip.downcase
       if input == "y"
-        puts ""
-        puts "* #{vegetable.sowing.strip}"
-        puts ""
-        puts "* #{vegetable.spacing}"
-        puts ""
-        puts "* #{vegetable.harvesting}"
-        more_veggies?
+        more_info(vegetable)
       else
         more_veggies?
       end
     end
+  end
+
+  def more_info(vegetable)
+    puts ""
+    puts "* #{vegetable.sowing.strip}"
+    puts "* #{vegetable.spacing}"
+    puts "* #{vegetable.compatible_with}"
+    puts "* #{vegetable.harvesting}"
+    more_veggies?
   end
 
   def more_veggies?
