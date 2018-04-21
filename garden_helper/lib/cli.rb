@@ -73,6 +73,7 @@ class GardenHelper::CLI
     puts "* #{unformatted[0]}".green
     puts "#{unformatted[1]}"
     puts "#{unformatted[2]}"
+  end
 
 
   def more_info(vegetable)
