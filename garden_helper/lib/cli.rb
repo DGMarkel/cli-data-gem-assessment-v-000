@@ -88,7 +88,7 @@ class GardenHelper::CLI
   def more_info(vegetable)
     puts ""
     formatted_sowing_description(vegetable)
-    formatted_spacing_description(vegetable, spacing)
+    formatted_spacing_description(vegetable)
     formatted_compatibility_description(vegetable)
     puts "* #{vegetable.harvesting}".green
     more_veggies?
