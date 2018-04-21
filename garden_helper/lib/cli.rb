@@ -1,10 +1,10 @@
 class GardenHelper::CLI
   attr_accessor :location
-  @@all = []
 
   def call
     welcome
     menu(@location)
+    user_input
   end
 
   def welcome
@@ -16,19 +16,19 @@ class GardenHelper::CLI
     puts "https://garden.org/nga/zipzone/".green
     puts ""
     puts "When you're ready, enter your growing zone below. (ex: 7b)".green
-    real_location?
+    real_growing_zone?
     puts ""
     puts "For the month of #{Date::MONTHNAMES[Date.today.month]}, we're recommending that you plant the following vegetables in your area.".green
     puts ""
   end
 
-  def real_location?
+  def real_growing_zone?
     @location = gets.strip
     if @location.length == 2
       @location
     else
       puts "That's not a real place.  Please try again."
-      real_location?
+      real_growing_zone?
     end
   end
 
@@ -38,7 +38,6 @@ class GardenHelper::CLI
     GardenHelper::Vegetable.vegetable_array.each {|vegetable| puts vegetable.name}
     puts "For more growing information, enter any of the vegetables listed above.".green
     puts "You can also exit at any time by typing the magic word (It's exit).".green
-    user_input
   end
 
   def user_input
@@ -60,22 +59,20 @@ class GardenHelper::CLI
         puts "* #{vegetable.spacing}"
         puts ""
         puts "* #{vegetable.harvesting}"
-        puts "Thinking about planting other veggies? Type menu or exit below.".green
-        input = gets.strip.downcase
-        if input == "menu"
-          menu(@location)
-        else
-          goodbye
-        end
+        more_veggies?
       else
-        puts "Thinking about planting other veggies? Type menu or exit below.".green
-        input = gets.strip.downcase
-        if input == "menu"
-          menu(@location)
-        else
-          goodbye
-        end
+        more_veggies?
       end
+    end
+  end
+
+  def more_veggies?
+    puts "Thinking about planting other veggies? Type menu or exit below.".green
+    input = gets.strip.downcase
+    if input == "menu"
+      menu(@location)
+    else
+      goodbye
     end
   end
 

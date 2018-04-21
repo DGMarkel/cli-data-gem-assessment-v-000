@@ -15,11 +15,10 @@ class GardenHelper::Scraper
     user_generated_index.values[0]
   end
 
-  #instantiates new vegetable objects with name and url properties
-  def self.make_vegetables(user_generated_index)
+  #Scrapes all vegetables from user's climate zone page
+  def self.scrape_vegetables(user_generated_index)
     doc = Nokogiri::HTML(open("https://www.gardenate.com/?zone=#{user_generated_index}"))
-    vegetables = doc.css('tr')
-    vegetables
+    doc.css('tr')
   end
 
 end
