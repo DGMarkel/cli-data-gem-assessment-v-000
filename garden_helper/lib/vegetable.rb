@@ -10,7 +10,7 @@ class GardenHelper::Vegetable
     vegetables.each do |vegetable|
       new_vegetable = GardenHelper::Vegetable.new("#{vegetable.css('td[width="70%"] a[href]').text}")
       new_vegetable.url = "https://www.gardenate.com#{vegetable.css('td[width="70%"] a').first['href']}"
-      @@vegetable_array << new_vegetable if !find_vegetable(vegetable)
+      @@vegetable_array << new_vegetable if !find_vegetable(new_vegetable.name)
     end
   end
 

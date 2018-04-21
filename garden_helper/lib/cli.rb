@@ -14,7 +14,6 @@ class GardenHelper::CLI
     puts "If you don't know your growing zone, you can look it up here:".green
     puts "https://garden.org/nga/zipzone/".green
     puts ""
-    puts "Garden Helper scrapes through dozens of pages for the information you're looking for, so initial load time could be several minutes."
     puts "When you're ready, enter your growing zone below. (ex: 7b)".green
     real_growing_zone?
     puts ""
@@ -42,12 +41,13 @@ class GardenHelper::CLI
   end
 
   def user_input
-    user_input = gets.strip
+    user_input = gets.strip.downcase.capitalize
     if user_input == "exit"
       goodbye
     else
       vegetable = GardenHelper::Vegetable.find_vegetable_and_add_atrributes(user_input)
       formatted_description(vegetable)
+      puts ""
       puts ""
       puts "Would you like to see more planting info? (y/n)".green
       input = gets.strip.downcase
@@ -73,20 +73,27 @@ class GardenHelper::CLI
   def formatted_sowing_description(vegetable)
     formatting = vegetable.sowing.strip.split(".")
     puts "    * #{formatting[0]}".green
-    puts "      - #{formatting[1]}"
-    puts "       - #{formatting[2]}" if formatting[2]
+    puts "       -".yellow + "#{formatting[1].gsub}"
+    puts "       -".yellow + " #{formatting[2]}" if formatting[2]
     puts ""
   end
 
   def formatted_spacing_description(vegetable)
     formatting = vegetable.spacing.split(":")
-    puts "    * #{formatting[0].green}: #{formatting[1]}"
+    puts "    * #{formatting[0]}:".green + "#{formatting[1].gsub("  ", " ")}"
     puts ""
   end
 
   def formatted_compatibility_description(vegetable)
     formatting = vegetable.compatible_with.split(":")
-    puts "    * #{formatting[0].green}: #{formatting[1]}"
+    compatible_plants_list = formatting[1].split(/[., .]/)
+    puts "    * #{formatting[0]}:".green
+
+    compatible_plants_list.each do |plant|
+      if plant != "" && plant != "Dry-environment" && plant != "herbs"
+        puts "       -".yellow + " #{plant.capitalize.gsub("(", "").gsub(")", "")}"
+      end
+    end
     puts ""
   end
 
@@ -101,7 +108,7 @@ class GardenHelper::CLI
 
   def more_veggies?
     puts ""
-    puts "Thinking about planting other veggies?" + " Type menu or exit below.".green
+    puts "Thinking about planting other veggies? Type menu or exit below.".green
     input = gets.strip.downcase
     if input == "menu"
       menu(@location)
