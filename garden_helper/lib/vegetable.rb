@@ -19,7 +19,7 @@ class GardenHelper::Vegetable
   end
 
   def self.find_vegetable(user_input)
-    @@vegetable_array.detect {|vegetable| vegetable.name.include?(user_input)}
+    @@vegetable_array.detect {|vegetable| vegetable.name.downcase.include?(user_input)}
   end
 
   #Scrapes data for specific vegetable based on user requests

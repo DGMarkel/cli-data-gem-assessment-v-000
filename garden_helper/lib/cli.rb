@@ -8,8 +8,8 @@ class GardenHelper::CLI
 
   def welcome
     puts ""
-    puts "Garden Helper helps you determine which vegetables you should be planting in your garden this month.".green
-    puts "To best help you, we need to know what climate zone you live in.".green
+    puts "GardenHelper tells you what you can plant in your garden this month according to your climate zone.".green
+    puts "It provides you with detailed growing and harvesting information for each plant based on the your local growing conditions.".green
     puts ""
     puts "If you don't know your climate zone, you can look it up here:".green
     puts "https://garden.org/nga/zipzone/".green
@@ -34,6 +34,7 @@ class GardenHelper::CLI
   def generate_menu
     user_generated_index = GardenHelper::Scraper.find_index_by_climate_zone(@location)
     GardenHelper::Vegetable.new_from_index_page(user_generated_index)
+    binding.pry
   end
 
 
@@ -48,21 +49,26 @@ class GardenHelper::CLI
   end
 
   def first_user_interface
-    user_input = gets.strip.downcase.capitalize
+    user_input = gets.strip.downcase
     if user_input == "exit"
       goodbye
     else
-      vegetable = GardenHelper::Vegetable.find_vegetable_and_add_atrributes(user_input)
-      puts "***#{vegetable.name}***".yellow
-      formatted_description(vegetable)
-      puts ""
-      puts ""
-      puts "Would you like to see more planting info? (y/n)".green
-      input = gets.strip.downcase
-      if input == "y"
-        more_info(vegetable)
+      if GardenHelper::Vegetable.find_vegetable(user_input)
+        vegetable = GardenHelper::Vegetable.find_vegetable_and_add_atrributes(user_input)
+        puts "***#{vegetable.name}***".yellow
+        formatted_description(vegetable)
+        puts ""
+        puts ""
+        puts "Would you like to see more planting info? (y/n)".green
+        input = gets.strip.downcase
+        if input == "y"
+          more_info(vegetable)
+        else
+          second_user_interface
+        end
       else
-        second_user_interface
+        puts "Invalid entry.  Please try again."
+        first_user_interface
       end
     end
   end
@@ -81,7 +87,7 @@ class GardenHelper::CLI
     formatting = vegetable.sowing.strip.split(".")
     puts "    * #{formatting[0]}".green
     puts "       -".yellow + "#{formatting[1]}"
-    puts "       -".yellow + " #{formatting[2]}" if formatting[2]
+    puts "       -".yellow + " #{formatting[2]}" if formatting[2] != "" && formatting[2] != nil
     puts ""
   end
 
