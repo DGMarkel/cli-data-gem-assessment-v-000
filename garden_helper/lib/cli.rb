@@ -23,10 +23,10 @@ class GardenHelper::CLI
 
   def real_growing_zone?
     @location = gets.strip
-    if @location.length == 2 && @location[0].to_i > 0
+    if @location.length == 2 && @location[0].to_i > 0 && @location[1].to_i == 0
       @location
     else
-      puts "That's not valid climate zone.  Please try again."
+      puts "That's not valid climate zone.  Please try again.".red
       real_growing_zone?
     end
   end
@@ -42,7 +42,7 @@ class GardenHelper::CLI
       generate_menu
     end
     GardenHelper::Vegetable.vegetable_array.each {|vegetable| puts "*".yellow + " #{vegetable.name}"}
-    puts "For more growing information, enter any of the vegetables listed above.".green
+    puts "For more growing information, enter at least the first three letters of the vegetable you'd like to read up on.".green
     puts "You can also exit at any time by typing the magic word (It's exit).".green
     first_user_interface
   end
@@ -53,6 +53,7 @@ class GardenHelper::CLI
       goodbye
     else
       vegetable = GardenHelper::Vegetable.find_vegetable_and_add_atrributes(user_input)
+      puts "***#{vegetable.name}***".yellow
       formatted_description(vegetable)
       puts ""
       puts ""
@@ -67,7 +68,6 @@ class GardenHelper::CLI
   end
 
   def formatted_description(vegetable)
-    puts ""
     vegetable.description.scan(/\b.*\b/).each do |sentence|
       print sentence + ". " if sentence.length > 15
       if sentence.length < 15 && sentence != ""
