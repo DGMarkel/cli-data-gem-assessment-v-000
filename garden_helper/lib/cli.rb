@@ -21,6 +21,7 @@ class GardenHelper::CLI
     puts ""
   end
 
+  #checks to see if user input is valid
   def real_growing_zone?
     @location = gets.strip
     if @location.length == 2 && @location[0].to_i > 0 && @location[1].to_i == 0
@@ -31,12 +32,16 @@ class GardenHelper::CLI
     end
   end
 
+  #populates vegetable_array with scraped vegetable objects
+  #allows me to scrape major data only ONCE in a session
+  #scrapes minimal info necessary to make GardenHelper work
   def generate_menu
     user_generated_index = GardenHelper::Scraper.find_index_by_climate_zone(@location)
     GardenHelper::Vegetable.new_from_index_page(user_generated_index)
   end
 
 
+  #displays vegetable_array as a list
   def menu
     if GardenHelper::Vegetable.vegetable_array.empty?
       generate_menu
@@ -47,6 +52,9 @@ class GardenHelper::CLI
     first_user_interface
   end
 
+  #adds attributes to single vegetable objects as the user requests information for them
+  #checks validity of search queries
+  #allows users to request additional information for a vegetable or exit
   def first_user_interface
     user_input = gets.strip.downcase
     if user_input == "exit"
@@ -114,6 +122,7 @@ class GardenHelper::CLI
     end
   end
 
+  #presents detailed veggie info on request
   def more_info(vegetable)
     puts ""
     formatted_sowing_description(vegetable)
@@ -123,6 +132,7 @@ class GardenHelper::CLI
     second_user_interface
   end
 
+  #enables users to return to menu, exit, or see a list of their past searches
   def second_user_interface
     puts ""
     puts "Thinking about planting other veggies? Type ".green + "'menu'".yellow + " or ".green + "'exit'".yellow + " at the prompt.".green
