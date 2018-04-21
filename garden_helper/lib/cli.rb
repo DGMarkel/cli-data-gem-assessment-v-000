@@ -60,7 +60,7 @@ class GardenHelper::CLI
 
   def formatted_description(vegetable)
     vegetable.description.scan(/\b.*\b/).each do |sentence|
-      print sentence + "." if sentence.length > 15
+      print sentence + ". " if sentence.length > 15
       if sentence.length < 15 && sentence != ""
         puts ""
         puts "**#{sentence}**".green
