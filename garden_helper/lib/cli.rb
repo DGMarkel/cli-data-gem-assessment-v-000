@@ -62,7 +62,7 @@ class GardenHelper::CLI
       if input == "y"
         more_info(vegetable)
       else
-        more_veggies?
+        second_user_interface
       end
     end
   end
@@ -115,10 +115,10 @@ class GardenHelper::CLI
     formatted_spacing_description(vegetable)
     formatted_compatibility_description(vegetable)
     puts "    * #{vegetable.harvesting}".green
-    more_veggies?
+    second_user_interface
   end
 
-  def more_veggies?
+  def second_user_interface
     puts ""
     puts "Thinking about planting other veggies? Type ".green + "'menu'".yellow + " or ".green + "'exit'".yellow + " at the prompt.".green
     puts "Want to review the vegetables you've already looked at? Type ".green + "'my garden'".yellow + ".".green
@@ -130,12 +130,12 @@ class GardenHelper::CLI
       GardenHelper::Vegetable.vegetable_array.each do |vegetable|
         puts "*".yellow + " #{vegetable.name}" if vegetable.description != nil
       end
-      more_veggies?
+      second_user_interface
     elsif input == "exit"
       goodbye
     else
       puts "Sorry, I didn't quite get that."
-      more_veggies?
+      second_user_interface
     end
   end
 
