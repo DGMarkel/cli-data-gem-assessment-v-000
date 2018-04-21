@@ -23,7 +23,7 @@ class GardenHelper::CLI
 
   def real_growing_zone?
     @location = gets.strip
-    if @location.length == 2
+    if @location.length == 2 && @location[0].to_i > 0
       @location
     else
       puts "That's not valid climate zone.  Please try again."
@@ -120,10 +120,17 @@ class GardenHelper::CLI
 
   def more_veggies?
     puts ""
-    puts "Thinking about planting other veggies? Type menu or exit below.".green
+    puts "Thinking about planting other veggies? Type ".green + "'menu'".yellow + " or ".green + "'exit'".yellow + " at the prompt.".green
+    puts "Want to review the vegetables you've already looked at? Type ".green + "'my garden'".yellow + ".".green
     input = gets.strip.downcase
     if input == "menu"
       menu
+    elsif input.downcase == "my garden"
+      puts ""
+      GardenHelper::Vegetable.vegetable_array.each do |vegetable|
+        puts "*".yellow + " #{vegetable.name}" if vegetable.description != nil
+      end
+      more_veggies?
     elsif input == "exit"
       goodbye
     else
