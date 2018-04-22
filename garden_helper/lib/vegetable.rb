@@ -33,7 +33,6 @@ class GardenHelper::Vegetable
     vegetable.sowing = "#{doc.css('.sowing').text.gsub("\n", "").gsub("\t", "").gsub("(Show °C/cm)", "")}"
     vegetable.spacing = "#{doc.css('.spacing').text.strip}"
     vegetable.harvesting = "#{doc.css('.harvest').text.strip}"
-
     vegetable
   end
 

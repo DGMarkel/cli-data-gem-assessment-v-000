@@ -114,8 +114,7 @@ class GardenHelper::CLI
       puts ""
     else
       compatible_plants_list.each do |plant|
-        if plant != "" && plant != "Dry-environment" && plant != "herbs" && !plant.include?("aromatic")
-        && !plant.include?("sp") && !plant.include?("Etc")
+        if plant != "" && plant != "Dry-environment" && plant != "herbs" && !plant.include?("aromatic") && !plant.include?("sp") && !plant.include?("Etc")
           puts "       -".yellow + " #{plant.capitalize.gsub("(", "").gsub(")", "")}"
         end
       end
