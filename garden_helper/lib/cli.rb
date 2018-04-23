@@ -9,14 +9,13 @@ class GardenHelper::CLI
   def welcome
     puts ""
     puts "GardenHelper tells you what you can plant in your garden this month according to your climate zone.".green
-    puts "It provides you with detailed growing and harvesting information for each plant based on the your local growing conditions.".green
+    puts "It provides you with detailed growing and harvesting information for each plant based on your local growing conditions.".green
     puts ""
     puts "If you don't know your climate zone, you can look it up here:".green
-    puts "https://garden.org/nga/zipzone/".green
+    puts "https://garden.org/nga/zipzone/".yellow
     puts ""
-    puts "When you're ready, enter your climate zone below. (ex: 7b)".green
+    puts "When you're ready, enter your climate zone below.".green + " (ex: 7b)".yellow
     real_growing_zone?
-    puts ""
     puts "For the month of #{Date::MONTHNAMES[Date.today.month]}, we're recommending that you plant the following vegetables in your area.".green
     puts ""
   end
@@ -80,55 +79,13 @@ class GardenHelper::CLI
     end
   end
 
-  def formatted_description(vegetable)
-    vegetable.description.scan(/\b.*\b/).each do |sentence|
-      print sentence + ". " if sentence.length > 15
-      if sentence.length < 15 && sentence != ""
-        puts ""
-        puts "**#{sentence}**".green
-      end
-    end
-  end
-
-  def formatted_sowing_description(vegetable)
-    formatting = vegetable.sowing.strip.split(".")
-    puts "    * #{formatting[0]}".green
-    puts "       -".yellow + "#{formatting[1]}"
-    puts "       -".yellow + " #{formatting[2]}" if formatting[2] != "" && formatting[2] != nil
-    puts ""
-  end
-
-  def formatted_spacing_description(vegetable)
-    formatting = vegetable.spacing.split(":")
-    puts "    * #{formatting[0]}:".green + "#{formatting[1].gsub("  ", " ")}"
-    puts ""
-  end
-
-  def formatted_compatibility_description(vegetable)
-    formatting = vegetable.compatible_with.split(":")
-    compatible_plants_list = formatting[1].split(/[., .]/)
-
-    puts "    * #{formatting[0]}:".green
-    if formatting[1].include?("Not applicable") || formatting[1].include?("Better")
-      puts "      -".yellow + "#{formatting[1].gsub("..", ".")}"
-      puts ""
-    else
-      compatible_plants_list.each do |plant|
-        if plant != "" && plant != "Dry-environment" && plant != "herbs" && !plant.include?("aromatic") && !plant.include?("sp") && !plant.include?("Etc")
-          puts "       -".yellow + " #{plant.capitalize.gsub("(", "").gsub(")", "")}"
-        end
-      end
-      puts ""
-    end
-  end
-
   #presents detailed veggie info on request
   def more_info(vegetable)
     puts ""
     formatted_sowing_description(vegetable)
     formatted_spacing_description(vegetable)
     formatted_compatibility_description(vegetable)
-    puts "    * #{vegetable.harvesting}".green
+    puts "    * #{vegetable.harvesting}".gsub(" .", "").green
     second_user_interface
   end
 
@@ -157,6 +114,54 @@ class GardenHelper::CLI
   def goodbye
     puts ""
     puts "Hey, good luck with that garden!  Hope to see your green thumbs around here real soon.".green
+  end
+
+  #FORMATTING METHODS
+
+  #Long description of vegetable in paragraph form
+  def formatted_description(vegetable)
+    vegetable.description.scan(/\b.*\b/).each do |sentence|
+      print sentence + ". " if sentence.length > 15
+      if sentence.length < 15 && sentence != ""
+        puts ""
+        puts "**#{sentence}**".green
+      end
+    end
+  end
+
+  #Planting details
+  def formatted_sowing_description(vegetable)
+    formatting = vegetable.sowing.strip.split(".")
+    puts "    * #{formatting[0]}".green
+    puts "       -".yellow + "#{formatting[1]}" if formatting[1] != "" && formatting[2] != nil
+    puts "       -".yellow + " #{formatting[2]}" if formatting[2] != "" && formatting[2] != nil
+    puts ""
+  end
+
+  #Seed/Seedling spacing info
+  def formatted_spacing_description(vegetable)
+    formatting = vegetable.spacing.split(":")
+    puts "    * #{formatting[0]}:".green + "#{formatting[1].gsub("  ", " ")}"
+    puts ""
+  end
+
+  #Lists companion crops
+  def formatted_compatibility_description(vegetable)
+    formatting = vegetable.compatible_with.split(":")
+    compatible_plants_list = formatting[1].split(/[., .]/)
+
+    puts "    * #{formatting[0]}:".green
+    if formatting[1].include?("Not applicable") || formatting[1].include?("Better")
+      puts "      -".yellow + "#{formatting[1].gsub("..", ".")}"
+      puts ""
+    else
+      compatible_plants_list.each do |plant|
+        if plant != "" && plant != "Dry-environment" && plant != "herbs" && !plant.include?("aromatic") && !plant.include?("sp") && !plant.include?("Etc")
+          puts "       -".yellow + " #{plant.capitalize.gsub("(", "").gsub(")", "")}"
+        end
+      end
+      puts ""
+    end
   end
 
 end
