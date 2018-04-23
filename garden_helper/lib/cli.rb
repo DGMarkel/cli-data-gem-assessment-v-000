@@ -40,7 +40,6 @@ class GardenHelper::CLI
     GardenHelper::Vegetable.new_from_index_page(user_generated_index)
   end
 
-
   #displays vegetable_array as a list
   def menu
     if GardenHelper::Vegetable.vegetable_array.empty?
