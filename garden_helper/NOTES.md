@@ -25,9 +25,7 @@ Users can save a list of vegetables they select to plant in their garden, which 
 GardenHelper files:
 garden_helper_cli.rb - CLI for GardenScraper
 garden_scraper.rb - scrapes data from https//garden.org, creates new Month and Vegetable class instances
-month.rb -- class GardenHelper::Month
 vegetable.rb -- class GardenHelper::vegetable
-gardener.rb -- saves Vegetable instances to array 'my_garden' and return them in a readable format.
 
 What is a vegetable?
   - has a name

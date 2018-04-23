@@ -37,7 +37,6 @@ class GardenHelper::CLI
   #scrapes minimal info necessary to make GardenHelper work
   def generate_menu
     user_generated_index = GardenHelper::Scraper.find_index_by_climate_zone(@location)
-    binding.pry
     GardenHelper::Vegetable.new_from_index_page(user_generated_index)
   end
 
