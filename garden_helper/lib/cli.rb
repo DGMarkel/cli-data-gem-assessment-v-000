@@ -8,8 +8,9 @@ class GardenHelper::CLI
 
   def welcome
     puts ""
-    puts "GardenHelper tells you what you can plant in your garden this month according to your climate zone.".green
-    puts "It provides you with detailed growing and harvesting information for each plant based on your local growing conditions.".green
+    puts "Welcome to GardenHelper".yellow
+    puts "GardenHelper provides detailed planting, growing and harvesting information for crops based".green
+    puts "on the current month and your local growing conditions.".green
     puts ""
     puts "If you don't know your climate zone, you can look it up here:".green
     puts "https://garden.org/nga/zipzone/".yellow
@@ -36,6 +37,7 @@ class GardenHelper::CLI
   #scrapes minimal info necessary to make GardenHelper work
   def generate_menu
     user_generated_index = GardenHelper::Scraper.find_index_by_climate_zone(@location)
+    binding.pry
     GardenHelper::Vegetable.new_from_index_page(user_generated_index)
   end
 
