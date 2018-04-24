@@ -1,6 +1,3 @@
-require 'nokogiri'
-require 'open-uri'
-
 class GardenHelper::Scraper
 
   #iterates through Gardenate's drop-down menu of global climate zones to access user's index page
@@ -12,6 +9,7 @@ class GardenHelper::Scraper
     climate_zone_menu.css('option').detect do |menu_option|
       user_generated_index = menu_option if menu_option.text.include?("USA") && menu_option.text.include?("#{climate_zone}")
     end
+
     user_generated_index.values.last
   end
 
@@ -19,10 +17,13 @@ class GardenHelper::Scraper
   def self.scrape_vegetables(user_generated_index)
     doc = Nokogiri::HTML(open("https://www.gardenate.com/?zone=#{user_generated_index}"))
     vegetables = doc.css('tr td[width="70%"]')
+
     vegetables.each do |vegetable|
       new_vegetable = GardenHelper::Vegetable.new("#{vegetable.css('a[href]').text}")
       new_vegetable.url = "https://www.gardenate.com#{vegetable.css('a').first['href']}"
-      GardenHelper::Vegetable.vegetable_array << new_vegetable if !GardenHelper::Vegetable.find_vegetable(new_vegetable.name.downcase)
+      if !GardenHelper::Vegetable.find_vegetable(new_vegetable.name.downcase)
+        GardenHelper::Vegetable.vegetable_array << new_vegetable
+      end
     end
   end
 
