@@ -27,4 +27,17 @@ class GardenHelper::Scraper
     end
   end
 
+  def self.add_vegetable_attributes(user_input)
+    vegetable = GardenHelper::Vegetable.find_vegetable(user_input)
+    doc = Nokogiri::HTML(open(vegetable.url))
+    vegetable_hash = {
+      :description => "#{doc.css('#details').text}",
+      :compatible_with => "#{doc.css('.companion').text + "."}",
+      :sowing => "#{doc.css('.sowing').text.gsub("\n", "").gsub("\t", "").gsub("(Show °C/cm)", "")}",
+      :spacing => "#{doc.css('.spacing').text.strip}",
+      :harvesting => "#{doc.css('.harvest').text.strip}"
+    }
+    vegetable.update(vegetable_hash)
+  end
+  
 end

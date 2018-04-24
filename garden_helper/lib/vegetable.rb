@@ -10,7 +10,12 @@ class GardenHelper::Vegetable
     @@vegetable_array.detect {|vegetable| vegetable.name.downcase.include?(user_input)}
   end
 
-  #Scrapes data for specific vegetable based on user input
+  def update(vegetable_hash)
+    vegetable_hash.each {|k,v| self.send("#{k}=", v)}
+  end
+
+
+=begin
   def self.find_vegetable_and_add_atrributes(user_input)
     vegetable = find_vegetable(user_input)
     doc = Nokogiri::HTML(open(vegetable.url))
@@ -23,7 +28,7 @@ class GardenHelper::Vegetable
 
     vegetable
   end
-
+=end
   def self.vegetable_array
     @@vegetable_array
   end

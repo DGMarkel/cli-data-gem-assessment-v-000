@@ -62,7 +62,8 @@ class GardenHelper::CLI
       goodbye
     else
       if GardenHelper::Vegetable.find_vegetable(user_input)
-        vegetable = GardenHelper::Vegetable.find_vegetable_and_add_atrributes(user_input)
+        GardenHelper::Scraper.add_vegetable_attributes(user_input)
+        vegetable = GardenHelper::Vegetable.find_vegetable(user_input)
         puts "***#{vegetable.name}***".yellow
         formatted_description(vegetable)
         puts ""
