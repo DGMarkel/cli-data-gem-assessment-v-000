@@ -5,14 +5,6 @@ class GardenHelper::Vegetable
   #Instantiaties vegetable objects from scraped climate zone index page
   #Objects have a name and a url to scrape for more data
   #Objects are pushed into vegetable_array
-  def self.new_from_index_page(user_generated_index)
-    vegetables = GardenHelper::Scraper.scrape_vegetables(user_generated_index)
-    vegetables.each do |vegetable|
-      new_vegetable = GardenHelper::Vegetable.new("#{vegetable.css('td[width="70%"] a[href]').text}")
-      new_vegetable.url = "https://www.gardenate.com#{vegetable.css('td[width="70%"] a').first['href']}"
-      @@vegetable_array << new_vegetable if !find_vegetable(new_vegetable.name.downcase)
-    end
-  end
 
   def initialize(name)
     @name = name

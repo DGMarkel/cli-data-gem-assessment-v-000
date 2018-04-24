@@ -18,7 +18,12 @@ class GardenHelper::Scraper
   #Scrapes all vegetables from user's climate zone page
   def self.scrape_vegetables(user_generated_index)
     doc = Nokogiri::HTML(open("https://www.gardenate.com/?zone=#{user_generated_index}"))
-    doc.css('tr')
+    vegetables = doc.css('tr td[width="70%"]')
+    vegetables.each do |vegetable|
+      new_vegetable = GardenHelper::Vegetable.new("#{vegetable.css('a[href]').text}")
+      new_vegetable.url = "https://www.gardenate.com#{vegetable.css('a').first['href']}"
+      GardenHelper::Vegetable.vegetable_array << new_vegetable if !GardenHelper::Vegetable.find_vegetable(new_vegetable.name.downcase)
+    end
   end
 
 end
