@@ -9,15 +9,15 @@ class GardenHelper::CLI
   def welcome
     puts ""
     puts "Welcome to GardenHelper".yellow
-    puts "GardenHelper provides detailed planting, growing and harvesting information for crops based".green
-    puts "on the current month and your local growing conditions.".green
+    puts "GardenHelper provides detailed planting, growing and harvesting information for crops based"
+    puts "on the current month and your local growing conditions."
     puts ""
-    puts "If you don't know your climate zone, you can look it up here:".green
+    puts "If you don't know your climate zone, you can look it up here:"
     puts "https://garden.org/nga/zipzone/".yellow
     puts ""
-    puts "When you're ready, enter your climate zone below.".green + " (ex: 7b)".yellow
+    puts "When you're ready, enter your climate zone below." + " (ex: 7b)".yellow
     real_growing_zone?
-    puts "For the month of #{Date::MONTHNAMES[Date.today.month]}, we're recommending that you plant the following vegetables in your area.".green
+    puts "For the month of #{Date::MONTHNAMES[Date.today.month]}, we're recommending that you plant the following vegetables in your area.".yellow
     puts ""
   end
 
@@ -46,8 +46,10 @@ class GardenHelper::CLI
       generate_menu
     end
     GardenHelper::Vegetable.vegetable_array.each {|vegetable| puts "*".yellow + " #{vegetable.name}"}
-    puts "For more growing information, enter at least the first three letters of the vegetable you'd like to read up on.".green
-    puts "You can also exit at any time by typing the magic word (It's exit).".green
+    puts ""
+    puts "For more growing information:".yellow
+    puts "Enter " + "three or more letters ".yellow + "of the vegetable you'd like to read up on."
+    puts "Exit ".yellow + "at any time."
     first_user_interface
   end
 
@@ -65,7 +67,7 @@ class GardenHelper::CLI
         formatted_description(vegetable)
         puts ""
         puts ""
-        puts "Would you like to see more planting info? (y/n)".green
+        puts "Would you like to see more planting info? (y/n)".yellow
         input = gets.strip.downcase
         if input == "y"
           more_info(vegetable)
@@ -85,15 +87,15 @@ class GardenHelper::CLI
     formatted_sowing_description(vegetable)
     formatted_spacing_description(vegetable)
     formatted_compatibility_description(vegetable)
-    puts "    * #{vegetable.harvesting}".gsub(" .", "").green
+    puts "    *" + " #{vegetable.harvesting}".gsub(" .", "").gsub("..", ".").green
     second_user_interface
   end
 
   #enables users to return to menu, exit, or see a list of their past searches
   def second_user_interface
     puts ""
-    puts "Thinking about planting other veggies? Type ".green + "'menu'".yellow + " or ".green + "'exit'".yellow + " at the prompt.".green
-    puts "Want to review the vegetables you've already looked at? Type ".green + "'my garden'".yellow + ".".green
+    puts "Thinking about planting other veggies? Type " + "'menu'".yellow + " or " + "'exit'".yellow + " at the prompt."
+    puts "Want to review the vegetables you've already looked at? Type " + "'my garden'".yellow + "."
     input = gets.strip.downcase
     if input == "menu"
       menu
@@ -113,7 +115,7 @@ class GardenHelper::CLI
 
   def goodbye
     puts ""
-    puts "Hey, good luck with that garden!  Hope to see your green thumbs around here real soon.".green
+    puts "Hey, good luck with that garden!  Hope to see your green thumbs around here real soon."
   end
 
   #FORMATTING METHODS
@@ -124,7 +126,7 @@ class GardenHelper::CLI
       print sentence + ". " if sentence.length > 15
       if sentence.length < 15 && sentence != ""
         puts ""
-        puts "**#{sentence}**".green
+        puts "**#{sentence}**"
       end
     end
   end
@@ -132,7 +134,7 @@ class GardenHelper::CLI
   #Planting details
   def formatted_sowing_description(vegetable)
     formatting = vegetable.sowing.strip.split(".")
-    puts "    * #{formatting[0]}".green
+    puts "    *" + " #{formatting[0]}".green
     puts "       -".yellow + "#{formatting[1]}" if formatting[1] != "" && formatting[2] != nil
     puts "       -".yellow + " #{formatting[2]}" if formatting[2] != "" && formatting[2] != nil
     puts ""
@@ -141,7 +143,7 @@ class GardenHelper::CLI
   #Seed/Seedling spacing info
   def formatted_spacing_description(vegetable)
     formatting = vegetable.spacing.split(":")
-    puts "    * #{formatting[0]}:".green + "#{formatting[1].gsub("  ", " ")}"
+    puts "    *" + " #{formatting[0]}:".green + "#{formatting[1].gsub("  ", " ")}"
     puts ""
   end
 
@@ -150,8 +152,8 @@ class GardenHelper::CLI
     formatting = vegetable.compatible_with.split(":")
     compatible_plants_list = formatting[1].split(/[., .]/)
 
-    puts "    * #{formatting[0]}:".green
-    if formatting[1].include?("Not applicable") || formatting[1].include?("Better")
+    puts "    *" + " #{formatting[0]}:".green
+    if formatting[1].include?("Not applicable") || formatting[1].include?("Better") || formatting[1].include?("Best")
       puts "      -".yellow + "#{formatting[1].gsub("..", ".")}"
       puts ""
     else
